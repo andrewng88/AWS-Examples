@@ -1,0 +1,7 @@
+{
+    "name": "My Dev Environment",
+    "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+    "features": {
+        "ghcr.io/devcontainers/features/aws-cli:1": {}
+    }
+}
