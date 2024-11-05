@@ -1,0 +1,41 @@
+#!/usr/bin/bash
+echo "==list objects"
+
+# where we store these files
+OUTPUT_DIR="tmp/s3-bash-scripts"
+FILE_PREFIX="random_file_"  
+BUCKET_NAME="my-new-shiny-bucket-and"
+
+# create output-folder
+mkdir -p $OUTPUT_DIR
+
+# generate a random number
+# to determine how many files to create
+FILE_COUNT=5
+
+# Define the function to generate random content
+generate_random_content() {
+    local file_path=$1
+    # Generate random content (example: 1KB of random data)
+    head -c 1K /dev/urandom | base64 > "$file_path"
+}
+
+for ((i=1; i<=$FILE_COUNT; i++)); do
+    FILE_NAME="${FILE_PREFIX}$(date +%s%N | cut -b10-19)_$i.txt"  # Unique file name
+    FILE_PATH="$OUTPUT_DIR/$FILE_NAME"
+
+    # Generate random content and save to file
+    generate_random_content "$FILE_PATH"
+    
+    # Upload the file to S3 (corrected the cp command)
+    aws s3 cp "$FILE_PATH" "s3://$BUCKET_NAME/$FILE_NAME"
+    
+    # Check if the upload was successful
+    if [[ $? -eq 0 ]]; then
+        echo "Uploaded: $FILE_NAME"
+    else
+        echo "Failed to upload: $FILE_NAME"
+    fi
+done
+
+rm -rf $OUTPUT_DIR

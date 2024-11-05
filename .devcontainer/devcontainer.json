@@ -6,5 +6,6 @@
     },
     "remoteEnv": {
         "AWS_CLI_AUTO_PROMPT": "on-partial"
-    }
+    },
+    "postCreateCommand": "sudo apt-get update && sudo apt-get install -y tree && mkdir -p ~/workspace ~/data ~/scripts"
 }

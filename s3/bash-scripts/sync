@@ -1,0 +1,16 @@
+#!/usr/bin/bash
+
+echo "==sync two buckets"
+
+# Check if exactly two arguments are supplied
+if [ $# -ne 2 ]; then
+    echo "Incorrect number of arguments. Please provide source and destination bucket names."
+    exit 1
+fi
+
+# Assign the arguments to variables
+SOURCE_BUCKET=$1
+DESTINATION_BUCKET=$2
+
+# Perform the sync operation
+aws s3 sync s3://$SOURCE_BUCKET s3://$DESTINATION_BUCKET

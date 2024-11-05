@@ -1,0 +1,11 @@
+#!/usr/bin/bash
+echo "==delete bucket"
+
+# Check for bucket name
+if [ -z "$1" ]; then
+    echo "No bucket name supplied"
+    exit 1
+fi
+
+aws s3 rm s3://$1 --recursive
+aws s3api delete-bucket --bucket $1
